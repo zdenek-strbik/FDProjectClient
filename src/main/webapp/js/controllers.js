@@ -5,7 +5,7 @@
 angular.module('myApp.controllers', []).
         controller('MyCtrl1', ['$scope', '$http', function($scope, $http) {
                 $scope.loadId = function loadId() {
-                    $http({method: 'GET', url: '/rest/training/load'}).
+                    $http({method: 'GET', url: 'http://65.48.244.116/rest/training/load'}).
                             success(function(data, status, headers, config) {
                                 $scope.randomId = data;
                             }).
