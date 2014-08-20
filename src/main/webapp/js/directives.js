@@ -15,7 +15,7 @@ angular.module('myApp.directives', []).
          return {
             restrict: "A",
             link: function(scope, element){
-               var ctx = element[0].getContext('2d');
+               var ctx = element[0];
 
                // variable that decides if something should be drawn on mousemove
                var drawing = false;
@@ -23,6 +23,20 @@ angular.module('myApp.directives', []).
                // the last coordinates before the current move
                var lastX;
                var lastY;
+
+               var context = ctx.getContext('2d');
+               var centerX = ctx.width / 2;
+               var centerY = ctx.height / 2;
+               var radius = 70;
+
+               context.beginPath();
+               context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
+               context.fillStyle = 'white';
+               context.fill();
+               context.lineWidth = 5;
+               context.strokeStyle = '#330000';
+               context.stroke();
+
 
                element.bind('mousedown', function(event){
                   if(event.offsetX!==undefined){
