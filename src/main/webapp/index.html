@@ -2,53 +2,40 @@
 <html lang="en" ng-app="myApp">
 <head>
     <meta charset="utf-8">
-
     <title>My AngularJS App</title>
-
     <link rel="stylesheet" href="css/app.css"/>
-    <link rel="stylesheet" href="css/ng-mobile-menu.css"/>
 
-    <style>
-        #sp-page {
-            background-color: darkgray;
-            color: whitesmoke;
-        }
-        #sp-page > p {
-            padding: 0px;
-        }
-    </style>
+    <!-- In production use:
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
+-->
+    <script src="lib/angular/angular.js"></script>
+    <script src="lib/angular/angular-route.js"></script>
 
+    <script src="lib/underscore.js"></script>
+
+    <script src="js/app.js"></script>
+    <script src="js/services.js"></script>
+    <script src="js/controllers.js"></script>
+    <script src="js/filters.js"></script>
+    <script src="js/directives.js"></script>
 </head>
 
 
 <body>
 
-<div id="sp-nav">
-    <ul class="menu">
-        <li><a href="#/view1">view1</a></li>
-        <li><a href="#/view2">view2</a></li>
-    </ul>
+<p>O2</p>
+
+<div ng-controller="o2Controller">
+
+    <table-input model="o2Setup.rounds" label="Rounds"></table-input>
+    <table-input model="o2Setup.hold" label="Max hold"></table-input>
+    <table-input model="o2Setup.breathe" label="Breathe"></table-input>
+    <table-input model="o2Setup.change" label="Increase"></table-input>
+
+    <span ng-repeat="o2Value in o2Table track by $index">{{o2Value}} </span>
+
+    <button ng-click="startO2table()">Start</button>
 </div>
-
-<div id="sp-page">
-    <div ng-view></div>
-</div>
-
-
-<!-- In production use:
-<script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
--->
-<script src="lib/angular/angular.js"></script>
-<script src="lib/angular/angular-route.js"></script>
-
-<script src="lib/ng-mobile-menu.js"></script>
-
-<script src="js/app.js"></script>
-<script src="js/services.js"></script>
-<script src="js/controllers.js"></script>
-<script src="js/filters.js"></script>
-<script src="js/directives.js"></script>
-
 
 </body>
 </html>
