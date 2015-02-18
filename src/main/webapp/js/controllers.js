@@ -16,33 +16,37 @@ angular.module('myApp.controllers', []).
          $scope.o2Table = [];
          $scope.o2Frames = [];
 
-         function playSound(id) {
-            var element = document.getElementById(id);
-            element.play();
+         function playSound(state) {
+            var keyFrame = state.keyFrames[state.currentKeyFrame];
+
+            if (state.frame == keyFrame.value) {
+               _.each(keyFrame.sounds, function (sound) {
+                  var element = document.getElementById(sound);
+                  element.play();
+               });
+            }
          }
 
          var start = function (state) {
             $scope.o2Frames.push('START');
-            playSound('start');
          };
 
          var finished = function (state) {
             switchAction(state);
             clearInterval(state.tickId);
             $scope.o2Frames.push('FINISHED');
-            playSound('finished');
          };
 
          var switchAction = function (state) {
             state.currentKeyFrame++;
-            state.breathe = !state.breathe;
-            $scope.o2Frames.push('SWITCH: breathe = ' + state.breathe);
-            playSound(state.breathe ? 'breathe' : 'hold');
+            $scope.o2Frames.push('SWITCH');
          };
 
          var tick = function (state) {
             state.frame++;
             $scope.o2Frames.push(state.frame);
+
+            playSound(state);
          };
 
          $scope.startO2table = function () {
@@ -61,7 +65,7 @@ angular.module('myApp.controllers', []).
                return;
             }
 
-            if (state.frame == state.keyFrames[state.currentKeyFrame]) {
+            if (state.frame == state.keyFrames[state.currentKeyFrame].value) {
                switchAction(state);
             }
 
@@ -76,7 +80,7 @@ angular.module('myApp.controllers', []).
                keyFrames: keyFrames,
                frame: 0,
                currentKeyFrame: 0,
-               total: _.last(keyFrames),
+               total: _.last(keyFrames).value,
                breathe: true
             };
 

@@ -6,8 +6,9 @@
     <link rel="stylesheet" href="css/app.css"/>
 
     <!-- In production use:
-<script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
--->
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
+    -->
+
     <script src="lib/angular/angular.js"></script>
     <script src="lib/angular/angular-route.js"></script>
 
@@ -36,14 +37,13 @@
     <span ng-repeat="o2Value in o2Table track by $index">{{o2Value}} </span>
 
     <button ng-click="startO2table()">Start</button>
-    <p>
 
     <div ng-repeat="o2Frame in o2Frames track by $index">{{o2Frame}}</div>
 
-    <audio id="start" src="sound/start.mp3" type="audio/mp3" preload="auto" autobuffer></audio>
-    <audio id="finished" src="sound/finished.mp3" type="audio/mp3" preload="auto" autobuffer></audio>
-    <audio id="breathe" src="sound/breathe.mp3" type="audio/mp3" preload="auto" autobuffer></audio>
-    <audio id="hold" src="sound/hold.mp3" type="audio/mp3" preload="auto" autobuffer></audio>
+    <audio id="start" src="sound/start.mp3" preload="auto"></audio>
+    <audio id="finished" src="sound/finished.mp3" preload="auto"></audio>
+    <audio id="breathe" src="sound/breathe.mp3" preload="auto"></audio>
+    <audio id="hold" src="sound/hold.mp3" preload="auto"></audio>
 </div>
 
 </body>

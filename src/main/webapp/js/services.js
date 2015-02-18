@@ -26,12 +26,29 @@ angular.module('myApp.services', []).service('tableService', function () {
       return o2Table;
    };
 
+   function getSounds(keyFrame, breathe) {
+      // if (keyFrame == 0) {
+      //    return 'start';
+      // }
+      return breathe ? ['breathe'] : ['hold'];
+   }
+
    $this.calculateKeyFrames = function (table) {
       var keyFrames = [];
       var previousKeyFrame = 0;
-      _.each(table, function (keyFrame) {
-         var currentKeyFrame = (previousKeyFrame + keyFrame);
-         keyFrames.push(currentKeyFrame);
+      var breathe = false;
+
+      _.each(table, function (frame) {
+         var currentKeyFrame = (previousKeyFrame + frame);
+
+         var keyFrame = {
+            value: currentKeyFrame,
+            sounds: getSounds(currentKeyFrame, breathe)
+         };
+
+         breathe = !breathe;
+
+         keyFrames.push(keyFrame);
          previousKeyFrame = currentKeyFrame;
       });
 
