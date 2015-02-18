@@ -27,6 +27,7 @@
 
 <div ng-controller="o2Controller">
 
+    <table-input model="o2Setup.init" label="Initial"></table-input>
     <table-input model="o2Setup.rounds" label="Rounds"></table-input>
     <table-input model="o2Setup.hold" label="Max hold"></table-input>
     <table-input model="o2Setup.breathe" label="Breathe"></table-input>
@@ -35,6 +36,10 @@
     <span ng-repeat="o2Value in o2Table track by $index">{{o2Value}} </span>
 
     <button ng-click="startO2table()">Start</button>
+    <p>
+
+    <div ng-repeat="o2Frame in o2Frames track by $index">{{o2Frame}}</div>
+    </p>
 </div>
 
 </body>

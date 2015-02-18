@@ -5,8 +5,6 @@
 
 angular.module('myApp.services', []).service('tableService', function () {
 
-   var INITIAL_BREATHE_TIME = 4;
-
    var $this = this;
 
    $this.reloadO2table = function (o2Setup) {
@@ -23,7 +21,7 @@ angular.module('myApp.services', []).service('tableService', function () {
          inc += o2Setup.change;
       }
 
-      o2Table.unshift(INITIAL_BREATHE_TIME);
+      o2Table.unshift(o2Setup.init);
 
       return o2Table;
    };

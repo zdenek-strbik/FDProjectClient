@@ -6,6 +6,7 @@ angular.module('myApp.controllers', []).
       controller('o2Controller', ['$scope', '$http', 'tableService', function ($scope, $http, tableService) {
 
          $scope.o2Setup = {
+            init: 3,
             rounds: 3,
             hold: 5,
             breathe: 2,
@@ -13,25 +14,27 @@ angular.module('myApp.controllers', []).
          };
 
          $scope.o2Table = [];
+         $scope.o2Frames = [];
 
          var start = function (state) {
-            console.log('START');
+            $scope.o2Frames.push('START');
          };
 
          var finished = function (state) {
+            switchAction(state);
             clearInterval(state.tickId);
-            console.log('FINISHED');
+            $scope.o2Frames.push('FINISHED');
          };
 
          var switchAction = function (state) {
             state.currentKeyFrame++;
             state.breathe = !state.breathe;
-            console.log('SWITCH: breathe = ' + state.breathe);
+            $scope.o2Frames.push('SWITCH: breathe = ' + state.breathe);
          };
 
          var tick = function (state) {
-            state.keyFrame++;
-            console.log(state.keyFrame);
+            state.frame++;
+            $scope.o2Frames.push(state.frame);
          };
 
          $scope.startO2table = function () {
@@ -39,19 +42,18 @@ angular.module('myApp.controllers', []).
          };
 
          var timer = function (state) {
-            if (state.keyFrame == 0) {
+            if (state.frame == 0) {
                start(state);
             }
 
             tick(state);
 
-            if (state.keyFrame == state.total) {
-               switchAction(state);
+            if (state.frame == state.total) {
                finished(state);
                return;
             }
 
-            if (state.keyFrame == state.keyFrames[state.currentKeyFrame]) {
+            if (state.frame == state.keyFrames[state.currentKeyFrame]) {
                switchAction(state);
             }
 
@@ -64,7 +66,7 @@ angular.module('myApp.controllers', []).
                index: 0,
                current: table[0],
                keyFrames: keyFrames,
-               keyFrame: 0,
+               frame: 0,
                currentKeyFrame: 0,
                total: _.last(keyFrames),
                breathe: true
@@ -73,6 +75,7 @@ angular.module('myApp.controllers', []).
             state.tickId = setInterval(function () {
 
                timer(state);
+               $scope.$digest();
 
             }, 1000);
          };

@@ -7,7 +7,7 @@ angular.module('myApp.directives', [])
 
       .directive('tableInput', function () {
          return {
-            template: "<div>\n        <label>{{label}}: {{model}}</label>\n        <button ng-click=\"plus()\">+</button>\n        <button ng-click=\"minus()\">-</button>\n    </div>",
+            template: "<div>\n    <label>{{label}}: {{model}}</label>\n    <button ng-click=\"minus()\">-</button>\n    <button ng-click=\"plus()\">+</button>\n</div>",
             restrict: 'E',
             scope: {
                model: '=',
