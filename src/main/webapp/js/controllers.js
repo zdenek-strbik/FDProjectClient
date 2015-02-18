@@ -16,20 +16,28 @@ angular.module('myApp.controllers', []).
          $scope.o2Table = [];
          $scope.o2Frames = [];
 
+         function playSound(id) {
+            var element = document.getElementById(id);
+            element.play();
+         }
+
          var start = function (state) {
             $scope.o2Frames.push('START');
+            playSound('start');
          };
 
          var finished = function (state) {
             switchAction(state);
             clearInterval(state.tickId);
             $scope.o2Frames.push('FINISHED');
+            playSound('finished');
          };
 
          var switchAction = function (state) {
             state.currentKeyFrame++;
             state.breathe = !state.breathe;
             $scope.o2Frames.push('SWITCH: breathe = ' + state.breathe);
+            playSound(state.breathe ? 'breathe' : 'hold');
          };
 
          var tick = function (state) {
