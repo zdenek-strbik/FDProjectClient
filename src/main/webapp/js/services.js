@@ -33,26 +33,57 @@ angular.module('myApp.services', []).service('tableService', function () {
       return breathe ? ['breathe'] : ['hold'];
    }
 
-   $this.calculateKeyFrames = function (table) {
+   var calculateKeyFrames = function (table) {
       var keyFrames = [];
       var previousKeyFrame = 0;
-      var breathe = false;
 
       _.each(table, function (frame) {
          var currentKeyFrame = (previousKeyFrame + frame);
 
-         var keyFrame = {
-            value: currentKeyFrame,
-            sounds: getSounds(currentKeyFrame, breathe)
-         };
-
-         breathe = !breathe;
-
-         keyFrames.push(keyFrame);
+         keyFrames.push(currentKeyFrame);
          previousKeyFrame = currentKeyFrame;
       });
 
       return keyFrames;
+   };
+
+   $this.calculateFrames = function (table) {
+      var keyFrames = calculateKeyFrames(table);
+      var frames = [];
+      var breathe = false;
+      var currentFrame = 0;
+      var previousKeyFrame = 0;
+
+      frames.push({
+         value: currentFrame++
+      });
+
+      frames.push({
+         value: currentFrame,
+         sounds: ['start']
+      });
+
+      _.each(keyFrames, function (keyFrame) {
+         for (var i = 1; i < keyFrame - previousKeyFrame; i++) {
+            currentFrame += 1;
+            frames.push({
+               value: currentFrame
+            });
+         }
+
+         frames.push({
+            value: keyFrame,
+            sounds: breathe ? ['breathe'] : ['hold']
+         });
+
+         currentFrame += 1;
+         breathe = !breathe;
+         previousKeyFrame = keyFrame;
+      });
+
+      _.last(frames).sounds.push('finished');
+
+      return frames;
    };
 
 });

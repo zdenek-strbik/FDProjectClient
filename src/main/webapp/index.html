@@ -36,9 +36,9 @@
 
     <span ng-repeat="o2Value in o2Table track by $index">{{o2Value}} </span>
 
-    <button ng-click="startO2table()">Start</button>
+    <button ng-click="startTable(o2Table)">{{state.tickId ? 'Stop' : 'Start'}}</button>
 
-    <div ng-repeat="o2Frame in o2Frames track by $index">{{o2Frame}}</div>
+    <div>{{state.frames[state.frame] ? state.frames[state.frame].value: 0}}</div>
 
     <audio id="start" src="sound/start.mp3" preload="auto"></audio>
     <audio id="finished" src="sound/finished.mp3" preload="auto"></audio>

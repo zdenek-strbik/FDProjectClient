@@ -13,80 +13,54 @@ angular.module('myApp.controllers', []).
             change: 1
          };
 
-         $scope.o2Table = [];
-         $scope.o2Frames = [];
+         $scope.state = {};
 
-         function playSound(state) {
-            var keyFrame = state.keyFrames[state.currentKeyFrame];
+         function playSounds(state) {
+            var frame = state.frames[state.frame];
+            var wait = 0;
 
-            if (state.frame == keyFrame.value) {
-               _.each(keyFrame.sounds, function (sound) {
-                  var element = document.getElementById(sound);
-                  element.play();
-               });
-            }
+            _.each(frame.sounds, function (sound) {
+               setTimeout(function () {
+                  console.log(sound + ', wait=' + wait);
+                  document.getElementById(sound).play();
+                  wait += 3000;
+               }, wait);
+            });
          }
 
-         var start = function (state) {
-            $scope.o2Frames.push('START');
-         };
-
-         var finished = function (state) {
-            switchAction(state);
+         var stop = function (state) {
             clearInterval(state.tickId);
-            $scope.o2Frames.push('FINISHED');
-         };
-
-         var switchAction = function (state) {
-            state.currentKeyFrame++;
-            $scope.o2Frames.push('SWITCH');
+            state.tickId = null;
+            state.frame = 0;
          };
 
          var tick = function (state) {
+
             state.frame++;
-            $scope.o2Frames.push(state.frame);
 
-            playSound(state);
-         };
+            console.log(state.frame);
+            playSounds(state);
 
-         $scope.startO2table = function () {
-            startTable($scope.o2Table);
-         };
-
-         var timer = function (state) {
-            if (state.frame == 0) {
-               start(state);
+            if (state.frames[state.frame] == _.last(state.frames)) {
+               stop(state);
             }
+         };
 
-            tick(state);
-
-            if (state.frame == state.total) {
-               finished(state);
+         $scope.startTable = function (table) {
+            if ($scope.state.tickId) {
+               stop($scope.state);
                return;
             }
 
-            if (state.frame == state.keyFrames[state.currentKeyFrame].value) {
-               switchAction(state);
-            }
+            var frames = tableService.calculateFrames(table);
 
-         };
+            $scope.state.index = 0;
+            $scope.state.frames = frames;
+            $scope.state.frame = 0;
+            $scope.state.total = _.last(frames).value;
+            $scope.state.tickId = setInterval(function () {
 
-         var startTable = function (table) {
-            var keyFrames = tableService.calculateKeyFrames(table);
-
-            var state = {
-               index: 0,
-               current: table[0],
-               keyFrames: keyFrames,
-               frame: 0,
-               currentKeyFrame: 0,
-               total: _.last(keyFrames).value,
-               breathe: true
-            };
-
-            state.tickId = setInterval(function () {
-
-               timer(state);
+               tick($scope.state);
                $scope.$digest();
 
             }, 1000);
